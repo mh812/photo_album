@@ -19,6 +19,10 @@ public class User {
 		this.albums = new ArrayList<Album>();
 	}
 	
+	public User() {
+		this(null);
+	}
+	
 	public String getUsername() {
 		return this.username;
 	}

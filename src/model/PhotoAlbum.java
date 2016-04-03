@@ -1,36 +1,100 @@
 package model;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import view.LoginScreenController;
+
+/**
+ * The PhotoAlbum class is the main method of this program. This class creates
+ * a new backend interface to store user objects and starts with the login
+ * screen.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ */
 
 public class PhotoAlbum extends Application {
-
+	
 	private Stage primaryStage;
 	private AnchorPane root;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
-		initLayout();
+		loginScreen();
+		
 	}
-	
-	public void initLayout() {
+
+	/**
+	 * Opens up the login screen.
+	 */
+	public void loginScreen() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/view/PhotoAlbum.fxml"));
+			loader.setLocation(getClass().getResource("/view/LoginScreen.fxml"));
 			root = (AnchorPane) loader.load();
+			
+			LoginScreenController controller = loader.getController();
+			controller.setPhotoAlbum(this);
 
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Photo App");
 			primaryStage.setResizable(false);
 			primaryStage.show();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private BackEnd backend = new BackEnd();
+	
+	
+	/**
+	 * Initializes the photo album and loads up the file that contains
+	 * the user objects.
+	 * 
+	 * @author Omar Khalil
+	 * @author Michelle Hwang
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
+	public PhotoAlbum() throws ClassNotFoundException, IOException {
+		
+		/*try {
+			//this.photoAlbum.getBackend();
+			backend = BackEnd.readUsers();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} // needs to be tested more
+		*/
+	}
+	
+	/**
+	 * Returns backend interface.
+	 * 
+	 * @return BackEnd
+	 */
+	public BackEnd getBackend() {
+		return backend;
+	}
+	
+	/**
+	 * Returns PhotoAlbum instance.
+	 * 
+	 * @return
+	 */
+	public PhotoAlbum getPhotoAlbum() {
+		return this;
 	}
 	
 	public static void main(String[] args) {
