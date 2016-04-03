@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="496.0" prefWidth="455.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+   <children>
+      <ListView layoutX="14.0" layoutY="14.0" prefHeight="469.0" prefWidth="185.0" />
+      <Label layoutX="228.0" layoutY="34.0" text="Search By Date:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="228.0" layoutY="149.0" text="Search By Tag:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="303.0" layoutY="60.0" prefHeight="25.0" prefWidth="128.0" />
+      <TextField layoutX="303.0" layoutY="108.0" prefHeight="25.0" prefWidth="128.0" />
+      <TextField layoutX="228.0" layoutY="187.0" prefHeight="25.0" prefWidth="191.0" />
+      <Label layoutX="236.0" layoutY="64.0" text="From:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="240.0" layoutY="112.0" text="To:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="463.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.UserController">
+   <children>
+      <ListView fx:id="albumList" layoutX="14.0" layoutY="17.0" prefHeight="429.0" prefWidth="171.0" />
+      <Button fx:id="deleteBtn" layoutX="353.0" layoutY="277.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="70.0" text="Delete" />
+      <Button fx:id="editBtn" layoutX="353.0" layoutY="356.0" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="70.0" text="Edit" />
+      <Button fx:id="saveBtn" layoutX="253.0" layoutY="395.0" mnemonicParsing="false" onAction="#save" prefHeight="30.0" prefWidth="70.0" text="Save" />
+      <Button fx:id="logoutBtn" layoutX="353.0" layoutY="395.0" mnemonicParsing="false" onAction="#logout" prefHeight="30.0" prefWidth="70.0" text="Logout" />
+      <Button fx:id="openBtn" layoutX="253.0" layoutY="356.0" mnemonicParsing="false" onAction="#open" prefHeight="30.0" prefWidth="70.0" text="Open" />
+      <Button fx:id="addBtn" layoutX="353.0" layoutY="317.0" mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="70.0" text="Add" />
+      <Button fx:id="searchBtn" layoutX="253.0" layoutY="317.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="70.0" text="Search" />
+      <Text layoutX="231.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="231.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Photos: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="231.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Oldest Photo:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="231.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Range: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="316.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To" />
+      <Pane layoutX="208.0" layoutY="15.0" prefHeight="200.0" prefWidth="230.0">
+         <children>
+            <Label fx:id="albumName" layoutX="75.0" layoutY="22.0" />
+            <Label fx:id="numPhotos" layoutX="151.0" layoutY="52.0" />
+            <Label fx:id="oldestPhotoDate" layoutX="166.0" layoutY="83.0" />
+            <Label fx:id="firstDate" layoutX="47.0" layoutY="147.0" />
+            <Label fx:id="lastDate" layoutX="152.0" layoutY="147.0" />
+         </children></Pane>
+   </children>
+</AnchorPane>
