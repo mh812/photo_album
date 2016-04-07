@@ -31,33 +31,50 @@ public class User {
 		return this.albums;
 	}
 	
-	public Album containsAlbum(String albumname) {
+	public boolean containsAlbum(String albumName) {
+		System.out.println("In User: containsAlbum");
+
 		for(Album album : albums) {
-			if (album.getAlbumName().compareTo(albumname) == 0) {
-				return album;
+			if (album.getAlbumName().compareTo(albumName) == 0) {
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
-	public boolean containsAlbum(Album album) {
-		return albums.contains(album);
-	}
-	
+	/**
+	 * Adds a new album to a user's library. Will refuse to add an album with a 
+	 * duplicate album name.
+	 * 
+	 * @param albumName The name of the album to be created
+	 * @return True if the album was added, false otherwise.
+	 */
 	public boolean addAlbum(String albumName) {
-		Album album = new Album(albumName);	
-		if (!this.containsAlbum(album)) {
-			return true;
+		System.out.println("In User: addAlbum");
+		
+		if (containsAlbum(albumName)) {
+			return false;
 		}
-		return false;
+		
+		System.out.println("\t" + albumName + ": Not a duplicate, Will add");
+		albums.add(new Album(albumName));
+		return true;
+
 	}
 	
-	public boolean deleteAlbum(Album album) {
-		if (this.containsAlbum(album)) {
-			this.getAlbums().remove(album);		
-			return true;
-		}
-		return false;
+	public void editAlbum(String albumName, Album album) {
+		System.out.println("In User: editAlbum");
+		album.setAlbumName(albumName);
+	}
+	
+	/**
+	 * Removes an album from the user's library.
+	 * 
+	 * @param album The album object to be removed
+	 */
+	public void deleteAlbum(Album album) {
+		System.out.println("In User: deleteAlbum");
+		this.getAlbums().remove(album);
 	}
 	
 	public boolean movePhoto(Photo photo, Album src, Album dest) {

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -12,19 +13,19 @@ import java.util.List;
  */
 public class Photo {
 
-	private String fileName;
+	private File fileName;
 	private String caption;
 	private List<Tag> tags;
 	private Calendar dateTaken;
 	
-	public Photo(String fileName, String caption, Calendar dateTaken) {
+	public Photo(File fileName, String caption, Calendar dateTaken) {
 		this.fileName = fileName;
 		this.caption = caption;
 		this.dateTaken = dateTaken;
 		this.tags = new ArrayList<Tag>();;
 	}
 	
-	public String getFileName() {
+	public File getFileName() {
 		return this.fileName;
 	}
 	
@@ -64,7 +65,7 @@ public class Photo {
 	}
 	
 	public String toString() {
-		return "\n(" + getFileName() + " " + getCaption() + " " + getTags() + ")\n"; 
+		return "\n(" + getFileName().toString() + " " + getCaption() + " " + getTags() + ")\n"; 
 	}
 	
 	

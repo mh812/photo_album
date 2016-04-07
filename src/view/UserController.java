@@ -23,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -69,8 +70,12 @@ public class UserController {
 	private Label lastDate;
 	
 	BackEnd backend;
+	
 	private PhotoAlbum photoAlbum;
+	
 	private User user;
+	
+	private Album album;
 	
 	/**
 	 * Highlights album if clicked on.
@@ -105,7 +110,11 @@ public class UserController {
 	 */
 	private void showDetails(Album album) {
 		if (album != null) {
-			// shows details
+			albumName.setText(album.getAlbumName());
+			numPhotos.setText(album.getNumPhotos() + "");
+			oldestPhotoDate.setText("");
+			firstDate.setText("");
+			lastDate.setText("");
 		} else {
 			albumName.setText("");
 			numPhotos.setText("");
@@ -138,6 +147,8 @@ public class UserController {
 	 */
 	@FXML
 	protected void logout(ActionEvent event) throws IOException {
+		System.out.println("In UserController: logout");
+		
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/view/LoginScreen.fxml"));
@@ -158,13 +169,16 @@ public class UserController {
 	 */
 	@FXML
 	protected void delete() {
+		System.out.println("In UserController: delete");
+
 		int item = albumList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation");
-			alert.setContentText("Click OK to delete this user.");
+			alert.setContentText("Click OK to delete this album.");
 			Optional<ButtonType> click = alert.showAndWait();
 			if ((click.isPresent()) && (click.get() == ButtonType.OK)) {
+				user.deleteAlbum(user.getAlbums().get(item));
 				albumList.getItems().remove(item);
 				albumList.getSelectionModel().select(item);
 			}
@@ -180,14 +194,17 @@ public class UserController {
 	
 	@FXML
 	protected void add(ActionEvent event) throws IOException {
+		System.out.println("In UserController: add");
+		
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/view/AddNewAlbumScreen.fxml"));
 		loader.load();
-		Parent p = loader.getRoot();
+		Parent p = loader.getRoot();		
 		
-		// controller
-		
+		AddNewAlbumController controller = loader.getController();
+		controller.setUser(user);
+
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
 		stage.setTitle("Add New Album");
@@ -196,53 +213,71 @@ public class UserController {
 	
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/view/EditAlbumScreen.fxml"));
-		loader.load();
-		Parent p = loader.getRoot();
+		System.out.println("In UserController: edit");
 		
-		// controller
-		
-		Stage stage = new Stage();
-		stage.setScene(new Scene(p));
-		stage.setTitle("Edit Album");
-		stage.show();
-	}
-	
-	@FXML
-	protected void open(ActionEvent event) throws IOException {
 		int item = albumList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation");
-			alert.setContentText("Click OK to delete this user.");
-			Optional<ButtonType> click = alert.showAndWait();
-			if ((click.isPresent()) && (click.get() == ButtonType.OK)) {
-				((Node) event.getSource()).getScene().getWindow().hide();
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/view/AlbumScreen.fxml"));
-				loader.load();
-				Parent p = loader.getRoot();
-				
-				// controller
-				
-				Stage stage = new Stage();
-				stage.setScene(new Scene(p));
-				stage.setTitle("Album");
-				stage.show();
-			}
+			((Node) event.getSource()).getScene().getWindow().hide();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/EditAlbumScreen.fxml"));
+			loader.load();
+			Parent p = loader.getRoot();
+			
+			EditAlbumController controller = loader.getController();
+			controller.setUser(user);
+			controller.setAlbum(user.getAlbums().get(item));
+			controller.setAlbumText();
+			
+			Stage stage = new Stage();
+			stage.setScene(new Scene(p));
+			stage.setTitle("Edit Album");
+			stage.show();			
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Error");
 			alert.setHeaderText("No item selected");
-			alert.setContentText("Please select an album from the list to open");
+			alert.setContentText("Please select an album from the list to be edited");
+			alert.showAndWait();
+		}
+	}
+	
+	@FXML
+	protected void open(ActionEvent event) throws IOException {
+		System.out.println("In UserController: open");
+		
+		int item = albumList.getSelectionModel().getSelectedIndex();
+		if (item >= 0) {
+			((Node) event.getSource()).getScene().getWindow().hide();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/AlbumScreen.fxml"));
+			loader.load();
+			Parent p = loader.getRoot();
+			
+			AlbumController controller = loader.getController();
+			controller.setPhotoAlbum(this.photoAlbum);
+			controller.setUser(user);
+			controller.setAlbum(user.getAlbums().get(item));
+			
+			Stage stage = new Stage();
+			stage.setScene(new Scene(p));
+			controller.setStage(stage);
+			controller.setPhotoList(album);
+
+			stage.setTitle("Album: " + user.getAlbums().get(item).getAlbumName());
+			stage.show();			
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("No item selected");
+			alert.setContentText("Please select an album from the list to be edited");
 			alert.showAndWait();
 		}
 	}
 	
 	@FXML
 	protected void search(ActionEvent event) throws IOException {
+		System.out.println("In UserController: search");
+
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/view/SearchScreen.fxml"));
@@ -263,9 +298,11 @@ public class UserController {
 	 * @param user
 	 */
 	public void setAlbumList(User user) {
+		System.out.println("In UserController: setAlbumList()");
 		List<Album> albums = user.getAlbums();
 		ObservableList<Album> list = FXCollections.observableArrayList();
 		for (Album a : albums) {
+			//System.out.println(a);
 			list.add(a);
 		}
 		albumList.setItems(list);
@@ -287,7 +324,6 @@ public class UserController {
 	 */
 	public void setUser(User user) {
 		this.user = user;
-		//username.setText(user.getUsername());
 	}
 
 }

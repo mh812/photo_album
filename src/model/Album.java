@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,6 +36,7 @@ public class Album {
 	}
 	
 	public void setAlbumName(String albumName) {
+		System.out.println("In Album: setAlbumName");
 		this.albumName = albumName;
 	}
 	
@@ -41,7 +44,7 @@ public class Album {
 		return this.numPhotos;
 	}
 	
-	private List<Photo> getPhotos() {
+	public List<Photo> getPhotos() {
 		return this.photos;
 	}
 	
@@ -49,7 +52,9 @@ public class Album {
 		return photos.contains(photo);
 	}
 	
-	public boolean addPhoto(String fileName, String caption, Calendar dateTaken) {
+	public boolean addPhoto(File fileName, String caption, Calendar dateTaken) {
+		System.out.println("In Album: addPhoto");
+		
 		Photo photo = new Photo(fileName, caption, dateTaken);
 		if (!this.containsPhoto(photo)) {
 			photos.add(photo);			

@@ -60,9 +60,6 @@ public class PhotoAlbum extends Application {
 	 * Initializes the photo album and loads up the file that contains
 	 * the user objects.
 	 * 
-	 * @author Omar Khalil
-	 * @author Michelle Hwang
-	 * 
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */

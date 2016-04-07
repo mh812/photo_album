@@ -37,9 +37,11 @@ public class BackEnd implements Serializable {
 	
 	public BackEnd() {
 		users = new ArrayList<User>();
+
 		User admin = new User("admin");
-		User omar = new User("omar");
 		users.add(admin);
+
+		User omar = new User("omar");
 		users.add(omar);
 	}
 	
