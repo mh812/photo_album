@@ -86,7 +86,7 @@ public class MovePhotoController {
 		controller.setPhotoAlbum(photoAlbum);
 		controller.setUser(this.user);
 		controller.setAlbum(this.album);
-		controller.setPhotoList(this.album);
+		controller.setPhotoList();
 		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));

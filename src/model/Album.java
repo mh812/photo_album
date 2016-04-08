@@ -1,7 +1,6 @@
 package model;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,19 +29,12 @@ public class Album {
 		this.newest = null;
 	}
 	
-	// create album out of search results
-	public Album(String albumName, int numPhotos, List<Photo> photos) {
-		this.albumName = albumName;
-		this.numPhotos = numPhotos;
-		this.photos = photos;
-	}
-	
 	public String getAlbumName() {
 		return this.albumName;
 	}
 	
 	public void setAlbumName(String albumName) {
-		System.out.println("In Album: setAlbumName");
+		//System.out.println("In Album: setAlbumName");
 		this.albumName = albumName;
 	}
 	
@@ -50,8 +42,16 @@ public class Album {
 		return this.numPhotos;
 	}
 	
+	public void setNumPhotos(int numPhotos) {
+		this.numPhotos = numPhotos;
+	}
+	
 	public List<Photo> getPhotos() {
 		return this.photos;
+	}
+	
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
 	}
 	
 	/**
@@ -75,9 +75,8 @@ public class Album {
 	 * @param caption
 	 * @return
 	 */
-	// will have to add tag list to this
 	public boolean addPhoto(File fileName, String caption, List<Tag> tags) {
-		System.out.println("In Album: addPhoto");
+		//System.out.println("In Album: addPhoto");
 		if (!this.containsPhoto(fileName)) {
 			Photo photo = new Photo(fileName, caption, this, tags);
 			photos.add(photo);			
@@ -97,7 +96,7 @@ public class Album {
 	 * @param photo Photo to be deleted
 	 */
 	public void deletePhoto(Photo photo) {
-		System.out.println("In Album: deletePhoto");
+		//System.out.println("In Album: deletePhoto");
 		photos.remove(photo);
 		this.numPhotos--;
 		
@@ -111,6 +110,7 @@ public class Album {
 	 * @return oldest
 	 */
 	public String getOldest() {
+		findOldest();
 		if (oldest == null) {
 			return "";
 		}
@@ -125,6 +125,7 @@ public class Album {
 	 * @return newest
 	 */
 	public String getNewest() {
+		findNewest();
 		if (newest == null) {
 			return "";
 		}
@@ -176,15 +177,6 @@ public class Album {
 			}
 		}
 		this.newest = newest;
-	}
-			
-	public List<Photo> searchAlbum(Calendar date1, Calendar date2) {
-		List<Photo> results = new ArrayList<Photo>();
-		for (Photo photo : this.getPhotos()) {
-			// check if photo's dateTaken is between date parameters
-			// add to results list if true
-		}
-		return results;
 	}
 	
 	public String toString() {

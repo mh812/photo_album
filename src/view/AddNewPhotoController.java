@@ -29,7 +29,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Album;
-import model.Photo;
 import model.PhotoAlbum;
 import model.Tag;
 import model.User;
@@ -71,6 +70,9 @@ public class AddNewPhotoController {
 	private Tag tag;
 	private List<Tag> tags;
 	
+	/**
+	 * Initializes tags list and prepares tag ListView.
+	 */
 	@FXML
 	protected void initialize() {
 		tags = new ArrayList<Tag>();
@@ -95,6 +97,11 @@ public class AddNewPhotoController {
 		tagList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showTag(newValue));
 	}
 	
+	/**
+	 * Displays tag details.
+	 * 
+	 * @param tag
+	 */
 	private void showTag(Tag tag) {
 		if (tag != null) {
 			type.setText(tag.getType());
@@ -105,12 +112,24 @@ public class AddNewPhotoController {
 		}
 	}
 	
+	/**
+	 * Retrieves data from TextFields and creates new tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void addTag(ActionEvent event) throws IOException {
-		String type = this.type.getText().toLowerCase();
-		String value = this.value.getText().toLowerCase();
+		String type = this.type.getText().toLowerCase().trim();
+		String value = this.value.getText().toLowerCase().trim();
 		
-		if (!containsTag(type, value)) {
+		if (type.compareTo("") == 0 || value.compareTo("") == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error!");
+			alert.setHeaderText("Invalid Tag Input");
+			alert.setContentText("Type and value fields required. Please try again.");
+			alert.showAndWait();
+		} else if (!containsTag(type, value)) {
 			System.out.println("Does not contain tag");
 			Tag t = new Tag(type, value);
 			tags.add(t);
@@ -124,16 +143,25 @@ public class AddNewPhotoController {
 		}
 	}
 	
+	/**
+	 * Updates tags in ListView.
+	 */
 	@FXML
 	public void setTagList() {
-		System.out.println("In AddNewPhotoController: setTagList");
+		//System.out.println("In AddNewPhotoController: setTagList");
 		ObservableList<Tag> list = FXCollections.observableArrayList();
 		for (Tag t : tags) {
 			list.add(t);
 		}
 		tagList.setItems(list);
 	}
-	
+
+	/**
+	 * Deletes the selected tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void deleteTag(ActionEvent event) throws IOException {
 		int item = tagList.getSelectionModel().getSelectedIndex();
@@ -158,6 +186,13 @@ public class AddNewPhotoController {
 		} 
 	}
 	
+	/**
+	 * Checks if a tag exists in the photo's tag list.
+	 * 
+	 * @param type Type of the tag to be added
+	 * @param value Value of the tag to be added
+	 * @return True if the photo already contains the tag, false otherwise
+	 */
 	public boolean containsTag(String type, String value) {
 		for (Tag t : tags) {
 			if (t.getType().compareTo(type) == 0) {
@@ -169,6 +204,12 @@ public class AddNewPhotoController {
 		return false;
 	}
 	
+	/**
+	 * Opens a dialog to edit a selected tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void editTag(ActionEvent event) throws IOException {
    
@@ -197,10 +238,10 @@ public class AddNewPhotoController {
 	    	ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 	    	dialog.getDialogPane().getButtonTypes().add(cancel);
 	    	
-	    	Optional<Tag> result = dialog.showAndWait();
+	    	dialog.showAndWait();
 	    	
-	    	String type = newTypeText.getText();
-	    	String value = newValueText.getText();
+	    	String type = newTypeText.getText().toLowerCase().trim();
+	    	String value = newValueText.getText().toLowerCase().trim();
 	    	
 			if (type.equals("") || value.equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -248,7 +289,7 @@ public class AddNewPhotoController {
 		controller.setPhotoAlbum(photoAlbum);
 		controller.setUser(this.user);
 		controller.setAlbum(this.album);
-		controller.setPhotoList(this.album);
+		controller.setPhotoList();
 		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
@@ -256,7 +297,13 @@ public class AddNewPhotoController {
 		stage.show();
 	}
 	
-	// need to add tags
+	
+	/**
+	 * Adds new photo to the album.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void add(ActionEvent event) throws IOException {
 		//System.out.println("In PhotoDetailsController: add");
@@ -306,7 +353,7 @@ public class AddNewPhotoController {
 	 */
 	@FXML
 	protected void upload(ActionEvent event) throws IOException {
-		System.out.println("In PhotoDetailsController: choose");
+		//System.out.println("In PhotoDetailsController: choose");
 		FileChooser fileChooser = new FileChooser();		
         FileChooser.ExtensionFilter filter = 
         		new FileChooser.ExtensionFilter("All Images", "*.*"); // choose only image files

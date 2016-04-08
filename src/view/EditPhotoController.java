@@ -66,6 +66,9 @@ public class EditPhotoController {
 	private Tag tag;
 	private List<Tag> tags;
 	
+	/**
+	 * Initializes tags list and prepares tag ListView.
+	 */
 	@FXML
 	protected void initialize() {
 		tags = new ArrayList<Tag>();
@@ -90,16 +93,11 @@ public class EditPhotoController {
 		tagList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showDetails(newValue));
 	}
 	
-	private void showTag(Tag tag) {
-		if (tag != null) {
-			type.setText(tag.getType());
-			value.setText(tag.getValue());	
-		} else {
-			type.setText("");
-			value.setText("");
-		}
-	}
-	
+	/**
+	 * Displays tag details.
+	 * 
+	 * @param tag
+	 */
 	private void showDetails(Tag tag) {
 		if (tag != null) {
 			type.setText(tag.getType());
@@ -124,12 +122,24 @@ public class EditPhotoController {
 		tagList.setItems(list);
 	}
 	
+	/**
+	 * Retrieves data from TextFields and creates new tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void addTag(ActionEvent event) throws IOException {
-		String type = this.type.getText().toLowerCase();
-		String value = this.value.getText().toLowerCase();
+		String type = this.type.getText().toLowerCase().trim();
+		String value = this.value.getText().toLowerCase().trim();
 		
-		if (!containsTag(type, value)) {
+		if (type.compareTo("") == 0 || value.compareTo("") == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error!");
+			alert.setHeaderText("Invalid Tag Input");
+			alert.setContentText("Type and value fields required. Please try again.");
+			alert.showAndWait();
+		} else if (!containsTag(type, value)) {
 			System.out.println("Does not contain tag");
 			Tag t = new Tag(type, value);
 			tags.add(t);
@@ -143,6 +153,12 @@ public class EditPhotoController {
 		}
 	}
 	
+	/**
+	 * Deletes the selected tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void deleteTag(ActionEvent event) throws IOException {
 		int item = tagList.getSelectionModel().getSelectedIndex();
@@ -167,6 +183,13 @@ public class EditPhotoController {
 		} 
 	}
 	
+	/**
+	 * Checks if a tag exists in the photo's tag list.
+	 * 
+	 * @param type Type of the tag to be added
+	 * @param value Value of the tag to be added
+	 * @return True if the photo already contains the tag, false otherwise
+	 */
 	public boolean containsTag(String type, String value) {
 		for (Tag t : tags) {
 			if (t.getType().compareTo(type) == 0) {
@@ -178,10 +201,14 @@ public class EditPhotoController {
 		return false;
 	}
 	
+	/**
+	 * Opens a dialog to edit a selected tag.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
-	protected void editTag(ActionEvent event) throws IOException {
-   
-		
+	protected void editTag(ActionEvent event) throws IOException {	
 		int item = tagList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
 			this.tag = tags.get(item);
@@ -207,12 +234,12 @@ public class EditPhotoController {
 	    	ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 	    	dialog.getDialogPane().getButtonTypes().add(cancel);
 	    	
-	    	Optional<Tag> result = dialog.showAndWait();
+	    	dialog.showAndWait();
 	    	
-	    	String type = newTypeText.getText();
-	    	String value = newValueText.getText();
+	    	String type = newTypeText.getText().toLowerCase().trim();
+	    	String value = newValueText.getText().toLowerCase().trim();
 	    	
-			if (type.equals("") || value.equals("")) {
+			if (type.compareTo("") == 0 || value.compareTo("") == 0) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error!");
 				alert.setHeaderText("Invalid Tag Input");
@@ -258,7 +285,7 @@ public class EditPhotoController {
 		controller.setPhotoAlbum(photoAlbum);
 		controller.setUser(this.user);
 		controller.setAlbum(this.album);
-		controller.setPhotoList(this.album);
+		controller.setPhotoList();
 		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
@@ -266,6 +293,12 @@ public class EditPhotoController {
 		stage.show();
 	}
 	
+	/**
+	 * Inserts caption and tag list changes into photo.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
 		//System.out.println("In EditPhotoDetails: edit");
@@ -278,6 +311,7 @@ public class EditPhotoController {
 			alert.setContentText("Please try again.");
 			alert.showAndWait();	
 		} else {
+			photo.setTags(tags);
 			photo.setCaption(cap);
 			backToAlbum(event);
 		}

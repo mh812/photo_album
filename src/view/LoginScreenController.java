@@ -84,12 +84,12 @@ public class LoginScreenController {
 					controller.setAlbumList(user);
 					controller.setUser(user);
 					controller.setPhotoAlbum(this.photoAlbum);
+					controller.setWelcome(user);
 					
 					Stage stage = new Stage();
 					stage.setScene(new Scene(p));
 					stage.setTitle("Logged in as: " + name);
 					stage.show();
-					
 				}
 			} else {
 				error = true;

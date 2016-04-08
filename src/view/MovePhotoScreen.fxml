@@ -23,7 +23,7 @@
          </children></Pane>
       <ScrollPane layoutX="11.0" layoutY="12.0" prefHeight="243.0" prefWidth="218.0">
          <content>
-            <ListView fx:id="albumList" prefHeight="243.0" prefWidth="216.0" />
+            <ListView fx:id="albumList" prefHeight="243.0" prefWidth="216.0" style="-fx-background-color: white;" />
          </content>
       </ScrollPane>
    </children>

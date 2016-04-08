@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -29,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Album;
@@ -58,6 +59,8 @@ public class AlbumController {
 	@FXML
 	private Button moveBtn;
 	@FXML
+	private Button openBtn;
+	@FXML
 	private Button nextBtn;
 	@FXML
 	private Button prevBtn;
@@ -71,12 +74,14 @@ public class AlbumController {
 	@FXML
 	private Pane preview;
 	
-	private Stage stage;
 	private PhotoAlbum photoAlbum;
 	private User user;
 	private Album album;
 	private Photo photo;
 	
+	/**
+	 * Initializes a selected photo's list of tags in ListView tagList.
+	 */
 	@FXML
 	protected void initialize() {
 		tagList.setCellFactory(new Callback<ListView<Tag>, ListCell<Tag>>() {
@@ -115,16 +120,45 @@ public class AlbumController {
 			imageView.setImage(image);
 			imageView.setPreserveRatio(true);
 			preview.getChildren().add(imageView);
-			setTagList(photo);
-			
 			this.photo = photo; // set currently displaying photo
-			
+
+			setTagList();			
 		} else {
 			caption.setText("");
 			date.setText("");
 		}
 	}
 	
+	/**
+	 * Opens selected photo in larger window. 
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	protected void open(ActionEvent event) throws IOException {
+		if (photo == null) {
+			return;
+		}
+		Dialog<Photo> dialog = new Dialog<>();
+    	dialog.setTitle("Photo: " + this.photo.getCaption());
+		Image image = new Image(photo.getFileName().toURI().toString());
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setPreserveRatio(true);
+      	dialog.getDialogPane().setContent(imageView);
+    	ButtonType cancel = new ButtonType("Close", ButtonData.CANCEL_CLOSE);
+    	dialog.getDialogPane().getButtonTypes().add(cancel);
+    	dialog.showAndWait();
+	}
+	
+	/**
+	 * Enables the selected photo to be moved into a different album. Sets up
+	 * a move photo screen and controller.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void move(ActionEvent event) throws IOException {
 		if (photo == null) {
@@ -172,12 +206,13 @@ public class AlbumController {
 		controller.setAlbumList(this.user);
 		
 		Stage stage = new Stage();
+		stage.setTitle("Logged in as: " + user.getUsername());
 		stage.setScene(new Scene(p));
 		stage.show();
 	}
 	
 	/**
-	 * Removes a photo from the album.
+	 * Removes a selected photo from the current album.
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -193,7 +228,7 @@ public class AlbumController {
 			Optional<ButtonType> click = alert.showAndWait();
 			if ((click.isPresent()) && (click.get() == ButtonType.OK)) {
 				album.deletePhoto(photo);
-				setPhotoList(album);
+				setPhotoList();
 				preview.getChildren().clear();
 				caption.setText("");
 				date.setText("");
@@ -210,7 +245,7 @@ public class AlbumController {
 	} 
 	
 	/**
-	 * Adds a photo to the album.
+	 * Adds a photo to the current album.
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -238,6 +273,13 @@ public class AlbumController {
 		
 	}
 	
+	/**
+	 * Enables the selected photo to be edited. Sets up the edit photo screen
+	 * and controller.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
 		//System.out.println("In AlbumController: edit");
@@ -250,6 +292,8 @@ public class AlbumController {
 			Parent p = loader.getRoot();		
 			
 			EditPhotoController controller = loader.getController();
+			
+			// cleaner to do some of these in initialize() method
 			controller.setPhotoAlbum(photoAlbum);
 			controller.setUser(user);
 			controller.setAlbum(album);
@@ -278,7 +322,7 @@ public class AlbumController {
 	 */
 	@FXML
 	protected void next() {
-		System.out.println("In AlbumController: next");
+		//System.out.println("In AlbumController: next");
 		if (photo != null) {
 			Photo nextPhoto;
 			List<Photo> photos = album.getPhotos();
@@ -297,7 +341,7 @@ public class AlbumController {
 	 */
 	@FXML
 	protected void prev() {
-		System.out.println("In AlbumController: prev");
+		//System.out.println("In AlbumController: prev");
 		if (photo != null) {
 			Photo prevPhoto;
 			List<Photo> photos = album.getPhotos();
@@ -317,7 +361,10 @@ public class AlbumController {
 	 * @param photo
 	 */
 	@FXML
-	public void setTagList(Photo photo) {
+	public void setTagList() {
+		if (photo.getTags() == null) {
+			return;
+		}
 		List<Tag> tags = photo.getTags();
 		ObservableList<Tag> list = FXCollections.observableArrayList();
 		for (Tag t : tags) {
@@ -328,7 +375,7 @@ public class AlbumController {
 	
 	// need to add captions to thumbnails if time remaining
 	@FXML
-	public void setPhotoList(Album album) {
+	public void setPhotoList() {
 		gallery.getChildren().clear();
 		
 		List<Photo> photos = this.album.getPhotos();
@@ -381,8 +428,5 @@ public class AlbumController {
 		this.album = album;
 	}
 
-	public void setStage(Stage stage) {
-		this.stage = stage;
-	}
 	
 }

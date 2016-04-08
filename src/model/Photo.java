@@ -2,7 +2,6 @@ package model;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -65,6 +64,10 @@ public class Photo {
 	
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+	
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 	
 	public boolean containsTag(String type, String value) {

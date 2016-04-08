@@ -1,10 +1,5 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +18,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -56,7 +50,7 @@ public class UserController {
 	private Button saveBtn;
 	
 	@FXML
-	ListView<Album> albumList;
+	protected ListView<Album> albumList;
 	
 	@FXML
 	private Label albumName;
@@ -66,12 +60,13 @@ public class UserController {
 	private Label oldestPhotoDate;
 	@FXML
 	private Label dateRange;
+	@FXML
+	private Label welcome;
 	
 	BackEnd backend;
 	
 	private PhotoAlbum photoAlbum;
 	private User user;	
-	private Album album;
 	
 	/**
 	 * Highlights album if clicked on.
@@ -106,10 +101,17 @@ public class UserController {
 	 */
 	private void showDetails(Album album) {
 		if (album != null) {
-			albumName.setText(album.getAlbumName());
-			numPhotos.setText(album.getNumPhotos() + "");
-			oldestPhotoDate.setText(album.getOldest());
-			dateRange.setText(album.getOldest() + " to " + album.getNewest());
+			if (album.getNumPhotos() == 0) {
+				albumName.setText(album.getAlbumName());
+				numPhotos.setText(album.getNumPhotos() + "");
+				oldestPhotoDate.setText("-");
+				dateRange.setText("");
+			} else {
+				albumName.setText(album.getAlbumName());
+				numPhotos.setText(album.getNumPhotos() + "");
+				oldestPhotoDate.setText(album.getOldest());
+				dateRange.setText(album.getOldest() + " to " + album.getNewest());
+			}
 		} else {
 			albumName.setText("");
 			numPhotos.setText("");
@@ -141,7 +143,7 @@ public class UserController {
 	 */
 	@FXML
 	protected void logout(ActionEvent event) throws IOException {
-		System.out.println("In UserController: logout");
+		//System.out.println("In UserController: logout");
 		
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
@@ -163,7 +165,7 @@ public class UserController {
 	 */
 	@FXML
 	protected void delete() {
-		System.out.println("In UserController: delete");
+		//System.out.println("In UserController: delete");
 
 		int item = albumList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
@@ -174,7 +176,6 @@ public class UserController {
 			if ((click.isPresent()) && (click.get() == ButtonType.OK)) {
 				user.deleteAlbum(user.getAlbums().get(item));
 				albumList.getItems().remove(item);
-				albumList.getSelectionModel().select(item);
 			}
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -186,9 +187,15 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * Opens add album window.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void add(ActionEvent event) throws IOException {
-		System.out.println("In UserController: add");
+		//System.out.println("In UserController: add");
 		
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
@@ -205,10 +212,16 @@ public class UserController {
 		stage.show();
 	}
 	
+	/**
+	 * Opens edit album window to rename album.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
-		System.out.println("In UserController: edit");
-		
+		//System.out.println("In UserController: edit");
+				
 		int item = albumList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
 			((Node) event.getSource()).getScene().getWindow().hide();
@@ -235,10 +248,16 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Opens album to view photos.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void open(ActionEvent event) throws IOException {
-		System.out.println("In UserController: open");
-		
+		//System.out.println("In UserController: open");
+				
 		int item = albumList.getSelectionModel().getSelectedIndex();
 		if (item >= 0) {
 			((Node) event.getSource()).getScene().getWindow().hide();
@@ -253,9 +272,8 @@ public class UserController {
 			controller.setAlbum(user.getAlbums().get(item));
 			
 			Stage stage = new Stage();
-			controller.setStage(stage);
 			stage.setScene(new Scene(p));
-			controller.setPhotoList(album);
+			controller.setPhotoList();
 
 			stage.setTitle("Album: " + user.getAlbums().get(item).getAlbumName());
 			stage.show();			
@@ -268,9 +286,15 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Opens search window.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void search(ActionEvent event) throws IOException {
-		System.out.println("In UserController: search");
+		//System.out.println("In UserController: search");
 
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
@@ -278,7 +302,9 @@ public class UserController {
 		loader.load();
 		Parent p = loader.getRoot();
 		
-		// controller
+		SearchController controller = loader.getController();
+		controller.setPhotoAlbum(this.photoAlbum);
+		controller.setUser(this.user);
 		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
@@ -292,7 +318,7 @@ public class UserController {
 	 * @param user
 	 */
 	public void setAlbumList(User user) {
-		System.out.println("In UserController: setAlbumList()");
+		//System.out.println("In UserController: setAlbumList()");
 		List<Album> albums = user.getAlbums();
 		ObservableList<Album> list = FXCollections.observableArrayList();
 		for (Album a : albums) {
@@ -320,4 +346,13 @@ public class UserController {
 		this.user = user;
 	}
 
+	/**
+	 * Sets value of welcome label.
+	 *  
+	 * @param users 
+	 */
+	public void setWelcome(User user) {
+		welcome.setText("Welcome " + user.getUsername());
+	}
+	
 }

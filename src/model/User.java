@@ -32,7 +32,7 @@ public class User {
 	}
 	
 	public boolean containsAlbum(String albumName) {
-		System.out.println("In User: containsAlbum");
+		//System.out.println("In User: containsAlbum");
 
 		for(Album album : albums) {
 			if (album.getAlbumName().compareTo(albumName) == 0) {
@@ -50,20 +50,20 @@ public class User {
 	 * @return True if the album was added, false otherwise.
 	 */
 	public boolean addAlbum(String albumName) {
-		System.out.println("In User: addAlbum");
+		//System.out.println("In User: addAlbum");
 		
 		if (containsAlbum(albumName)) {
 			return false;
 		}
 		
-		System.out.println("\t" + albumName + ": Not a duplicate, Will add");
+		//System.out.println("\t" + albumName + ": Not a duplicate, Will add");
 		albums.add(new Album(albumName));
 		return true;
 
 	}
 	
 	public void editAlbum(String albumName, Album album) {
-		System.out.println("In User: editAlbum");
+		//System.out.println("In User: editAlbum");
 		album.setAlbumName(albumName);
 	}
 	
@@ -73,18 +73,20 @@ public class User {
 	 * @param album The album object to be removed
 	 */
 	public void deleteAlbum(Album album) {
-		System.out.println("In User: deleteAlbum");
+		//System.out.println("In User: deleteAlbum");
 		this.getAlbums().remove(album);
 	}
 	
-	public boolean movePhoto(Photo photo, Album src, Album dest) {
-		return false;
-	}
-	
-	public List<Photo> searchAlbums(Calendar date1, Calendar date2) {
+	public List<Photo> searchAlbum(String type, String value) {
 		List<Photo> results = new ArrayList<Photo>();
 		for (Album album : this.getAlbums()) {
-			results.addAll(album.searchAlbum(date1, date2));
+			for (Photo photo : album.getPhotos()) {
+				for (Tag tag : photo.getTags()) {
+					if (tag.getType().compareTo(type) == 0 && tag.getValue().compareTo(value) == 0) {
+						results.add(photo);
+					}
+				}
+			}
 		}
 		return results;
 	}

@@ -1,10 +1,7 @@
 package view;
 
 import java.io.IOException;
-import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import model.Album;
-import model.BackEnd;
+
 import model.PhotoAlbum;
 import model.User;
 
@@ -59,7 +55,7 @@ public class AddNewAlbumController {
 	 */
 	@FXML
 	protected void add(ActionEvent event) throws IOException {
-		System.out.println("In AddNewAlbumController: add");
+		//System.out.println("In AddNewAlbumController: add");
 		
 		String albumName = albumname.getText();
 		
