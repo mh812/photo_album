@@ -1,8 +1,10 @@
 package model;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,12 +19,17 @@ public class Photo {
 	private String caption;
 	private List<Tag> tags;
 	private Calendar dateTaken;
+	private Album album;
 	
-	public Photo(File fileName, String caption, Calendar dateTaken) {
+	public Photo(File fileName, String caption, Album album, List<Tag> tags) {
 		this.fileName = fileName;
 		this.caption = caption;
-		this.dateTaken = dateTaken;
-		this.tags = new ArrayList<Tag>();;
+		this.tags = tags;
+		this.album = album;
+		
+		// sets dateTaken of Photo object - cannot be modified
+		this.dateTaken = Calendar.getInstance();
+		dateTaken.setTime(new Date(fileName.lastModified()));		
 	}
 	
 	public File getFileName() {
@@ -41,27 +48,44 @@ public class Photo {
 		return this.tags;
 	}
 	
-	public boolean containsTag(Tag tag) {
-		if (tags.contains(tag)) {
-			return true;
+	public Calendar getDate() {
+		return this.dateTaken;
+	}
+	
+	public String printDate() {
+		Date toDate = this.dateTaken.getTime();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd HH:mm:ss.SSS");	
+		String date = format.format(toDate);
+		return date;
+	}
+	
+	public Album getAlbum() {
+		return this.album;
+	}
+	
+	public void setAlbum(Album album) {
+		this.album = album;
+	}
+	
+	public boolean containsTag(String type, String value) {
+		for (Tag t : tags) {
+			if (t.getType().compareTo(type) == 0) {
+				if (t.getValue().compareTo(value) == 0) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
 	
 	public boolean addTag(String type, String value) {
-		Tag tag = new Tag(type, value);
-		if (!this.containsTag(tag)) {
+		if (containsTag(type, value)) {
+			return false;
+		} else {
+			Tag t = new Tag(type, value);
+			tags.add(t);
 			return true;
 		}
-		return false;
-	}
-	
-	public boolean deleteTag(Tag tag) {
-		if (this.containsTag(tag)) {
-			this.getTags().remove(tag);
-			return true;
-		} 
-		return false;
 	}
 	
 	public String toString() {

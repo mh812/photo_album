@@ -65,16 +65,12 @@ public class UserController {
 	@FXML
 	private Label oldestPhotoDate;
 	@FXML
-	private Label firstDate;
-	@FXML
-	private Label lastDate;
+	private Label dateRange;
 	
 	BackEnd backend;
 	
 	private PhotoAlbum photoAlbum;
-	
-	private User user;
-	
+	private User user;	
 	private Album album;
 	
 	/**
@@ -112,15 +108,13 @@ public class UserController {
 		if (album != null) {
 			albumName.setText(album.getAlbumName());
 			numPhotos.setText(album.getNumPhotos() + "");
-			oldestPhotoDate.setText("");
-			firstDate.setText("");
-			lastDate.setText("");
+			oldestPhotoDate.setText(album.getOldest());
+			dateRange.setText(album.getOldest() + " to " + album.getNewest());
 		} else {
 			albumName.setText("");
 			numPhotos.setText("");
 			oldestPhotoDate.setText("");
-			firstDate.setText("");
-			lastDate.setText("");
+			dateRange.setText("");
 		}
 	}
 	
@@ -259,8 +253,8 @@ public class UserController {
 			controller.setAlbum(user.getAlbums().get(item));
 			
 			Stage stage = new Stage();
-			stage.setScene(new Scene(p));
 			controller.setStage(stage);
+			stage.setScene(new Scene(p));
 			controller.setPhotoList(album);
 
 			stage.setTitle("Album: " + user.getAlbums().get(item).getAlbumName());

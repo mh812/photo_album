@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -10,18 +12,21 @@
 
 <AnchorPane prefHeight="510.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AlbumController">
    <children>
-      <Pane fx:id="pane" layoutX="364.0" layoutY="14.0" prefHeight="248.0" prefWidth="245.0">
+      <Pane fx:id="pane" layoutX="364.0" layoutY="14.0" prefHeight="374.0" prefWidth="245.0">
          <children>
-            <Button fx:id="prevBtn" layoutX="21.0" layoutY="209.0" mnemonicParsing="false" onAction="#prev" text="Previous" />
-            <Button fx:id="nextBtn" layoutX="162.0" layoutY="209.0" mnemonicParsing="false" onAction="#next" prefHeight="25.0" prefWidth="61.0" text="Next" />
-            <Label fx:id="caption" alignment="CENTER" layoutX="22.0" layoutY="180.0" prefHeight="17.0" prefWidth="201.0" text="&lt;caption&gt;" textAlignment="CENTER" />
+            <Button fx:id="prevBtn" layoutX="21.0" layoutY="348.0" mnemonicParsing="false" onAction="#prev" text="Previous" />
+            <Button fx:id="nextBtn" layoutX="165.0" layoutY="348.0" mnemonicParsing="false" onAction="#next" prefHeight="25.0" prefWidth="61.0" text="Next" />
+            <Label fx:id="caption" alignment="BOTTOM_LEFT" layoutX="22.0" layoutY="188.0" prefHeight="17.0" prefWidth="201.0" text="Caption" />
             <Pane fx:id="preview" prefHeight="174.0" prefWidth="245.0" />
+            <Label fx:id="date" alignment="BOTTOM_LEFT" layoutX="22.0" layoutY="213.0" prefHeight="17.0" prefWidth="201.0" text="Date Taken" />
+            <ListView fx:id="tagList" layoutY="236.0" prefHeight="100.0" prefWidth="245.0" />
+            <ScrollBar layoutX="233.0" layoutY="236.0" orientation="VERTICAL" prefHeight="100.0" prefWidth="14.0" />
          </children>
       </Pane>
-      <Button fx:id="editBtn" layoutX="377.0" layoutY="388.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="61.0" text="Edit" />
-      <Button fx:id="addBtn" layoutX="377.0" layoutY="444.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="61.0" text="Add" />
-      <Button fx:id="deleteBtn" layoutX="513.0" layoutY="388.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="61.0" text="Delete" />
-      <Button fx:id="exitBtn" layoutX="513.0" layoutY="444.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="61.0" text="Exit" />
+      <Button fx:id="editBtn" layoutX="457.0" layoutY="396.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="61.0" text="Edit" />
+      <Button fx:id="addBtn" layoutX="386.0" layoutY="462.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="deleteBtn" layoutX="529.0" layoutY="397.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="exitBtn" layoutX="526.0" layoutY="462.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="61.0" text="Exit" />
       <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="484.0" prefWidth="333.0">
          <content>
             <TilePane fx:id="gallery" hgap="15.0" prefHeight="483.0" prefWidth="331.0" vgap="15.0">
@@ -31,5 +36,6 @@
             </TilePane>
          </content>
       </ScrollPane>
+      <Button fx:id="moveBtn" layoutX="386.0" layoutY="396.0" mnemonicParsing="false" onAction="#move" prefHeight="25.0" prefWidth="61.0" text="Move" />
    </children>
 </AnchorPane>

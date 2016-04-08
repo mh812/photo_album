@@ -89,14 +89,6 @@ public class User {
 		return results;
 	}
 	
-	public List<Photo> searchAlbums(Tag tag) {
-		List<Photo> results = new ArrayList<Photo>();
-		for (Album album : this.getAlbums()) {
-			results.addAll(album.searchAlbum(tag));
-		}
-		return results;
-	}
-	
 	public void printAlbums() {
 		System.out.println(this.getAlbums());
 	}

@@ -2,8 +2,10 @@ package model;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,11 +19,15 @@ public class Album {
 	private String albumName;
 	private int numPhotos;
 	private List<Photo> photos;
+	private Calendar oldest;
+	private Calendar newest;
 	
 	public Album(String albumName) {
 		this.albumName = albumName;
 		this.numPhotos = 0;
 		this.photos = new ArrayList<Photo>();
+		this.oldest = null;
+		this.newest = null;
 	}
 	
 	// create album out of search results
@@ -48,53 +54,135 @@ public class Album {
 		return this.photos;
 	}
 	
-	public boolean containsPhoto(Photo photo) {
-		return photos.contains(photo);
+	/**
+	 * Checks if a photo file already exists in an album.
+	 * 
+	 * @param fileName Path of the photo
+	 * @return True if the album contains the photo, false otherwise
+	 */
+	public boolean containsPhoto(File fileName) {
+		for(Photo p : photos) {
+			if (fileName.equals(p.getFileName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	public boolean addPhoto(File fileName, String caption, Calendar dateTaken) {
+	/**
+	 * 
+	 * @param fileName
+	 * @param caption
+	 * @return
+	 */
+	// will have to add tag list to this
+	public boolean addPhoto(File fileName, String caption, List<Tag> tags) {
 		System.out.println("In Album: addPhoto");
-		
-		Photo photo = new Photo(fileName, caption, dateTaken);
-		if (!this.containsPhoto(photo)) {
+		if (!this.containsPhoto(fileName)) {
+			Photo photo = new Photo(fileName, caption, this, tags);
 			photos.add(photo);			
 			this.numPhotos++;
+			
+			findOldest();
+			findNewest();
+			
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean deletePhoto(Photo photo) {
-		if (this.containsPhoto(photo)) {
-			photos.remove(photo);
-			this.numPhotos--;
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean editPhoto(Photo photo) {
-		if (this.containsPhoto(photo)) {
-			return true;
-		}
-		return false;
-	}
+	/**
+	 * Removes a photo from the photo album.
+	 * 
+	 * @param photo Photo to be deleted
+	 */
+	public void deletePhoto(Photo photo) {
+		System.out.println("In Album: deletePhoto");
+		photos.remove(photo);
+		this.numPhotos--;
 		
+		findOldest();
+		findNewest();
+	}
+	
+	/**
+	 * Returns the date of the oldest photo as a string.
+	 * 
+	 * @return oldest
+	 */
+	public String getOldest() {
+		if (oldest == null) {
+			return "";
+		}
+		Date date = this.oldest.getTime();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd HH:mm:ss.SSS");	
+		return format.format(date);
+	}
+	
+	/**
+	 * Returns the date of the newest photo as a string.
+	 * 
+	 * @return newest
+	 */
+	public String getNewest() {
+		if (newest == null) {
+			return "";
+		}
+		Date date = this.newest.getTime();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd HH:mm:ss.SSS");	
+		return format.format(date);
+	}
+	
+	/**
+	 * Identifies the oldest photo in the album.
+	 */
+	public void findOldest() {
+		//System.out.println("In Album: findOldest");
+		Calendar oldest;
+
+		if (numPhotos == 0) {
+			return;
+		}
+		
+		//System.out.println(photos.get(0).printDate());
+		oldest = photos.get(0).getDate();		
+		for (Photo p : photos) {
+			//System.out.println(oldest.compareTo(p.getDate()));
+			if (oldest.compareTo(p.getDate()) > 0) {
+				oldest = p.getDate();
+				//System.out.println(p.printDate());
+			}
+		}
+		this.oldest = oldest;
+	}
+	
+	/**
+	 * Identifies the newest photo in the album.
+	 */
+	public void findNewest() {
+		Calendar newest;
+
+		if (numPhotos == 0) {
+			return;
+		}
+		
+		//System.out.println(photos.get(0).printDate());
+		newest = photos.get(0).getDate();		
+		for (Photo p : photos) {
+			//System.out.println(oldest.compareTo(p.getDate()));
+			if (newest.compareTo(p.getDate()) < 0) {
+				newest = p.getDate();
+				//System.out.println(p.printDate());
+			}
+		}
+		this.newest = newest;
+	}
+			
 	public List<Photo> searchAlbum(Calendar date1, Calendar date2) {
 		List<Photo> results = new ArrayList<Photo>();
 		for (Photo photo : this.getPhotos()) {
 			// check if photo's dateTaken is between date parameters
 			// add to results list if true
-		}
-		return results;
-	}
-	
-	public List<Photo> searchAlbum(Tag tag) {
-		List<Photo> results = new ArrayList<Photo>();
-		for (Photo photo : this.getPhotos()) {
-			if (photo.containsTag(tag)) {
-				results.add(photo);
-			}
 		}
 		return results;
 	}
