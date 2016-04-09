@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -62,7 +62,7 @@ public class LoginScreenController {
 		
 		if (username.getText() != null) {
 			String name = username.getText();
-			System.out.println(name);
+			//System.out.println(name);
 			if (photoAlbum.getBackend().getUser(name) != null) {
 				User user = photoAlbum.getBackend().getUser(name);
 				if (name.equals("admin")) {

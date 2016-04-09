@@ -150,7 +150,7 @@ public class User implements Serializable {
 	 * Prints the album object.
 	 */
 	public void printAlbums() {
-		System.out.println(this.getAlbums());
+		//System.out.println(this.getAlbums());
 	}
 	
 }

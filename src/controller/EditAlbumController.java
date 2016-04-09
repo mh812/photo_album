@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -76,12 +76,12 @@ public class EditAlbumController {
 	 */
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
-		System.out.println("In EditAlbumController: edit");
+		//System.out.println("In EditAlbumController: edit");
 
 		String newAlbumName = albumname.getText();
 		
 		if (newAlbumName.compareTo("") == 0) {
-			System.out.println("\tERROR Must enter name of at least one character");
+			//System.out.println("\tERROR Must enter name of at least one character");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error!");
 			alert.setHeaderText("Invalid album name.");
@@ -89,11 +89,11 @@ public class EditAlbumController {
 			alert.showAndWait();
 			
 		} else if (newAlbumName.compareTo(album.getAlbumName()) == 0) {
-			System.out.println("\tDid not change album name");
+			//System.out.println("\tDid not change album name");
 			backToUser(event);
 			
 		} else if (user.containsAlbum(newAlbumName)) {			
-			System.out.println("\tERROR Could not rename album");
+			//System.out.println("\tERROR Could not rename album");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error!");
 			alert.setHeaderText("Duplicate album name entered.");
@@ -115,7 +115,7 @@ public class EditAlbumController {
 	 */
 	@FXML
 	protected void cancel(ActionEvent event) throws IOException  {
-		System.out.println("In EditAlbumController: cancel");
+		//System.out.println("In EditAlbumController: cancel");
 		backToUser(event);
 	}
 	

@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -73,7 +73,7 @@ public class AddNewAlbumController {
 		String albumName = albumname.getText();
 		
 		if (albumName.compareTo("") == 0) {
-			System.out.println("\tERROR Must enter name of at least one character");
+			//System.out.println("\tERROR Must enter name of at least one character");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error!");
 			alert.setHeaderText("Invalid album name.");
@@ -83,7 +83,7 @@ public class AddNewAlbumController {
 			boolean status = user.addAlbum(albumname.getText());
 		
 			if (!status) {
-				System.out.println("ERROR Could not add album");
+				//System.out.println("ERROR Could not add album");
 
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error!");
@@ -104,7 +104,7 @@ public class AddNewAlbumController {
 	 */
 	@FXML
 	protected void cancel(ActionEvent event) throws IOException  {
-		System.out.println("In AddNewAlbumController: cancel");
+		//System.out.println("In AddNewAlbumController: cancel");
 		backToUser(event);
 	}
 	

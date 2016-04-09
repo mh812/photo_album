@@ -2,12 +2,12 @@ package model;
 
 import java.io.IOException;
 
+import controller.LoginScreenController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import view.LoginScreenController;
 
 /**
  * The PhotoAlbum class is the main method of this program. This class creates
@@ -67,7 +67,7 @@ public class PhotoAlbum extends Application {
 		try {
 			backend = (BackEnd) ResourceManager.readUsers("userfile");
 		} catch (Exception e) {
-			System.out.println("File does not exist or could not load data: " + e.getMessage());
+			//System.out.println("File does not exist or could not load data: " + e.getMessage());
 		}
 	}
 	

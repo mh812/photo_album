@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -149,7 +149,7 @@ public class EditPhotoController {
 			alert.setContentText("Type and value fields required. Please try again.");
 			alert.showAndWait();
 		} else if (!containsTag(type, value)) {
-			System.out.println("Does not contain tag");
+			//System.out.println("Does not contain tag");
 			Tag t = new Tag(type, value);
 			tags.add(t);
 			setTagList();

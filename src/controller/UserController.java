@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -131,7 +131,7 @@ public class UserController {
 		try {
 			ResourceManager.writeUsers(this.photoAlbum.getBackend(), "userfile");
 		} catch (Exception e) {
-			System.out.println("Could not save file: " + e.getMessage());
+			//System.out.println("Could not save file: " + e.getMessage());
 		}
 	}
 	

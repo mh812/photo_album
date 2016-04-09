@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -188,7 +188,7 @@ public class MovePhotoController {
 	 * @param user
 	 */
 	public void setAlbumList(User user) {
-		System.out.println("In UserController: setAlbumList()");
+		//System.out.println("In UserController: setAlbumList()");
 		List<Album> albums = user.getAlbums();
 		ObservableList<Album> list = FXCollections.observableArrayList();
 		for (Album a : albums) {

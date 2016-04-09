@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="266.0" prefWidth="497.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MovePhotoController">
+<AnchorPane prefHeight="266.0" prefWidth="497.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MovePhotoController">
    <children>
       <Button fx:id="moveBtn" layoutX="334.0" layoutY="222.0" mnemonicParsing="false" onAction="#move" prefHeight="30.0" prefWidth="70.0" text="Move" />
       <Button fx:id="exitBtn" layoutX="413.0" layoutY="222.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="70.0" text="Cancel" />
