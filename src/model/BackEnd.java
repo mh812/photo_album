@@ -1,39 +1,18 @@
 package model;
 
-import java.util.ArrayList;
 import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BackEnd implements Serializable {
-
+	
 	/**
 	 * Generated SUID
 	 */
-	private static final long serialVersionUID = 4697633446212598817L;
-
+	private static final long serialVersionUID = 7878048212514926262L;
+	
+	
 	private ArrayList<User> users;
-	
-	public static final String storeDir = "dat";
-	public static final String storeFile = "users.dat";
-	
-	public static BackEnd readUsers() throws IOException, ClassNotFoundException {
-		ObjectInputStream ois = new ObjectInputStream(
-				new FileInputStream(storeDir + File.separator + storeFile));
-		BackEnd back = (BackEnd)ois.readObject();
-		return back;
-	}
-	
-	public static void writeUsers(BackEnd back) throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(
-				new FileOutputStream(storeDir + File.separator + storeFile));
-		oos.writeObject(back);
-		//oos.close();
-	}
 	
 	public BackEnd() {
 		users = new ArrayList<User>();
@@ -51,9 +30,14 @@ public class BackEnd implements Serializable {
 	}
 	
 	public void deleteUser(String username) {
-		for (User u : users) {
+		Iterator<User> iter = users.iterator();
+		
+		while (iter.hasNext()) {
+			User u = iter.next();
+			
 			if (u.getUsername().equals(username)) {
 				users.remove(u);
+				return;
 			}
 		}
 	}

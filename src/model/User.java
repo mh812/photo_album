@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +14,13 @@ import java.util.List;
  * @author Michelle Hwang
  *
  */
-public class User {
+public class User implements Serializable {
+	
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 6578893320390944828L;
+	
 	private String username;
 	private List<Album> albums;
 	
@@ -68,17 +75,12 @@ public class User {
 	 * @param albumName The name of the album to be created
 	 * @return True if the album was added, false otherwise.
 	 */
-	public boolean addAlbum(String albumName) {
-		//System.out.println("In User: addAlbum");
-		
+	public boolean addAlbum(String albumName) {		
 		if (containsAlbum(albumName)) {
 			return false;
 		}
-		
-		//System.out.println("\t" + albumName + ": Not a duplicate, Will add");
 		albums.add(new Album(albumName));
 		return true;
-
 	}
 	
 	/**

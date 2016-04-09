@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,8 +17,13 @@ import java.util.List;
  * @author Michelle Hwang
  *
  */
-public class Photo {
+public class Photo implements Serializable {
 
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 3253380940931743957L;
+	
 	private File fileName;
 	private String caption;
 	private List<Tag> tags;

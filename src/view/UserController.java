@@ -24,6 +24,7 @@ import javafx.util.Callback;
 import model.Album;
 import model.BackEnd;
 import model.PhotoAlbum;
+import model.ResourceManager;
 import model.User;
 
 /**
@@ -126,13 +127,12 @@ public class UserController {
 	 * @throws IOException
 	 */
 	@FXML
-	protected void save() throws IOException { // needs to be tested more
-		/*try {
-			//this.photoAlbum.getBackend();
-			BackEnd.writeUsers(this.photoAlbum.getBackend());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+	protected void save() throws IOException {
+		try {
+			ResourceManager.writeUsers(this.photoAlbum.getBackend(), "userfile");
+		} catch (Exception e) {
+			System.out.println("Could not save file: " + e.getMessage());
+		}
 	}
 	
 	/**
@@ -204,6 +204,7 @@ public class UserController {
 		Parent p = loader.getRoot();		
 		
 		AddNewAlbumController controller = loader.getController();
+		controller.setPhotoAlbum(this.photoAlbum);
 		controller.setUser(user);
 
 		Stage stage = new Stage();
@@ -231,6 +232,7 @@ public class UserController {
 			Parent p = loader.getRoot();
 			
 			EditAlbumController controller = loader.getController();
+			controller.setPhotoAlbum(this.photoAlbum);
 			controller.setUser(user);
 			controller.setAlbum(user.getAlbums().get(item));
 			controller.setAlbumText();
@@ -326,6 +328,7 @@ public class UserController {
 			list.add(a);
 		}
 		albumList.setItems(list);
+		albumList.getSelectionModel().select(0);
 	}
 	
 	/**

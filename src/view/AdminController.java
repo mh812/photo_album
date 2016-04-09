@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.PhotoAlbum;
+import model.ResourceManager;
 import model.User;
 
 /**
@@ -151,6 +152,12 @@ public class AdminController {
 				photoAlbum.getBackend().deleteUser(name);
 				userList.getItems().remove(item);
 				userList.getSelectionModel().select(item);
+			}
+			
+			try {
+				ResourceManager.writeUsers(this.photoAlbum.getBackend(), "userfile");
+			} catch (Exception e) {
+				System.out.println("Could not save file: " + e.getMessage());
 			}
 			
 		} else {

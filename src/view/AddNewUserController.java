@@ -11,8 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.BackEnd;
 import model.PhotoAlbum;
+import model.ResourceManager;
 import model.User;
 
 /**
@@ -54,6 +54,12 @@ public class AddNewUserController {
 		controller.setPhotoAlbum(this.photoAlbum);
 		controller.setUserList(this.user);
 		
+		try {
+			ResourceManager.writeUsers(this.photoAlbum.getBackend(), "userfile");
+		} catch (Exception e) {
+			System.out.println("Could not save file: " + e.getMessage());
+		}
+		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
 		stage.show();
@@ -77,12 +83,12 @@ public class AddNewUserController {
 		controller.setPhotoAlbum(this.photoAlbum);
 		controller.setUserList(this.user);
 		
-		try {
+		/*try {
 			//this.photoAlbum.getBackend();
 			BackEnd.writeUsers(this.photoAlbum.getBackend());
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));

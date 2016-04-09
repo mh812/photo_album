@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Describes the tag object. Contains a type-value pair.
  * 
@@ -7,8 +9,13 @@ package model;
  * @author Michelle Hwang
  *
  */
-public class Tag {
+public class Tag implements Serializable {
 
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 467418373787730049L;
+	
 	private String type;
 	private String value;
 	

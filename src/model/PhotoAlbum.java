@@ -63,17 +63,12 @@ public class PhotoAlbum extends Application {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	public PhotoAlbum() throws ClassNotFoundException, IOException {
-		
-		/*try {
-			//this.photoAlbum.getBackend();
-			backend = BackEnd.readUsers();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} // needs to be tested more
-		*/
+	public PhotoAlbum() throws Exception {
+		try {
+			backend = (BackEnd) ResourceManager.readUsers("userfile");
+		} catch (Exception e) {
+			System.out.println("File does not exist or could not load data: " + e.getMessage());
+		}
 	}
 	
 	/**
