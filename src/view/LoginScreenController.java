@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +37,15 @@ public class LoginScreenController {
 	private PhotoAlbum photoAlbum;
 	
 	@FXML
-	private void initialize() {}
+	private void initialize() {
+		Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                username.requestFocus();
+            }
+        });
+	}
 
 	/**
 	 * Logs in as either admin or user. Login screen closes and a new window corresponding

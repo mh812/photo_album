@@ -1,13 +1,20 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Omar Khalil
  * @author Michelle Hwang
  *
  */
-public class Tag {
+public class Tag implements Serializable {
 
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 467418373787730049L;
+	
 	private String type;
 	private String value;
 	

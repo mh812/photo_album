@@ -1,7 +1,7 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -10,7 +10,12 @@ import java.util.List;
  * @author Michelle Hwang
  *
  */
-public class User {
+public class User implements Serializable {
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 6578893320390944828L;
+	
 	private String username;
 	private List<Album> albums;
 	

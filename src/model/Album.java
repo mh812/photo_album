@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,8 +14,13 @@ import java.util.List;
  * @author Michelle Hwang
  *
  */
-public class Album {
+public class Album implements Serializable {
 
+	/**
+	 * Generated SUID
+	 */
+	private static final long serialVersionUID = 3187980270116508175L;
+	
 	private String albumName;
 	private int numPhotos;
 	private List<Photo> photos;
