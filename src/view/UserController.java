@@ -328,6 +328,7 @@ public class UserController {
 			list.add(a);
 		}
 		albumList.setItems(list);
+		albumList.getSelectionModel().select(0);
 	}
 	
 	/**
