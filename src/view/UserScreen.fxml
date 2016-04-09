@@ -17,8 +17,8 @@
       <Button fx:id="saveBtn" layoutX="275.0" layoutY="415.0" mnemonicParsing="false" onAction="#save" prefHeight="30.0" prefWidth="70.0" text="Save" />
       <Button fx:id="logoutBtn" layoutX="355.0" layoutY="415.0" mnemonicParsing="false" onAction="#logout" prefHeight="30.0" prefWidth="67.0" text="Logout" />
       <Button fx:id="openBtn" layoutX="197.0" layoutY="249.0" mnemonicParsing="false" onAction="#open" prefHeight="30.0" prefWidth="70.0" text="Open" />
-      <Button fx:id="addBtn" layoutX="317.0" layoutY="302.0" mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="110.0" text="Add New Album" />
-      <Button fx:id="searchBtn" layoutX="198.0" layoutY="302.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="110.0" text="Search Library" />
+      <Button fx:id="addBtn" layoutX="198.0" layoutY="302.0" mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="110.0" text="Add New Album" />
+      <Button fx:id="searchBtn" layoutX="315.0" layoutY="302.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="110.0" text="Search Library" />
       <Pane layoutX="189.0" layoutY="55.0" prefHeight="194.0" prefWidth="253.0">
          <children>
             <Label fx:id="albumName" layoutX="92.0" layoutY="22.0" prefHeight="17.0" prefWidth="158.0" />

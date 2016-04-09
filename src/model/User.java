@@ -2,10 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
- * 
+ * Describes the User object, each of which has a username and
+ * a list of albums that the user has created. 
+ *  
  * @author Omar Khalil
  * @author Michelle Hwang
  *
@@ -23,14 +26,30 @@ public class User {
 		this(null);
 	}
 	
+	/**
+	 * Returns the username of the current user.
+	 * 
+	 * @return The username of the user
+	 */
 	public String getUsername() {
 		return this.username;
 	}
 	
+	/**
+	 * Returns the user's list of albums.
+	 * 
+	 * @return All of the user's albums
+	 */
 	public List<Album> getAlbums() {
 		return this.albums;
 	}
 	
+	/**
+	 * Detects a duplicate album name in the user's list of albums.
+	 * 
+	 * @param albumName The name to be matched
+	 * @return True if the library contains the album name, false otherwise
+	 */
 	public boolean containsAlbum(String albumName) {
 		//System.out.println("In User: containsAlbum");
 
@@ -62,8 +81,13 @@ public class User {
 
 	}
 	
+	/**
+	 * Renames the album.
+	 * 
+	 * @param albumName The new album name
+	 * @param album The album instance that is renamed
+	 */
 	public void editAlbum(String albumName, Album album) {
-		//System.out.println("In User: editAlbum");
 		album.setAlbumName(albumName);
 	}
 	
@@ -73,10 +97,17 @@ public class User {
 	 * @param album The album object to be removed
 	 */
 	public void deleteAlbum(Album album) {
-		//System.out.println("In User: deleteAlbum");
 		this.getAlbums().remove(album);
 	}
 	
+	/**
+	 * Searches a user's album library for all photos with a match
+	 * with the specified tag type-value pair.
+	 * 
+	 * @param type The type of the tag to be matched
+	 * @param value The value of the tag to be matched
+	 * @return A list of photos whose tag matches the requested tag
+	 */
 	public List<Photo> searchAlbum(String type, String value) {
 		List<Photo> results = new ArrayList<Photo>();
 		for (Album album : this.getAlbums()) {
@@ -91,6 +122,31 @@ public class User {
 		return results;
 	}
 	
+	/**
+	 * Searches album library for photos taken between in the specified
+	 * range of dates.
+	 * 
+	 * @param date1 Oldest date
+	 * @param date2 Newest date
+	 * @return A list of photos whose date taken property satisfies the 
+	 * date range.
+	 */
+	public List<Photo> searchAlbum(Date date1, Date date2) {
+		List<Photo> results = new ArrayList<Photo>();
+		for (Album album : this.getAlbums()) {
+			for (Photo photo : album.getPhotos()) {
+				Date d = photo.getDate().getTime();
+				if (d.after(date1) && d.before(date2)) {
+					results.add(photo);
+				}
+			}
+		}
+		return results;
+	}
+	
+	/**
+	 * Prints the album object.
+	 */
 	public void printAlbums() {
 		System.out.println(this.getAlbums());
 	}

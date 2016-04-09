@@ -8,7 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 
+ * Describes the Album object. Contains properties album name, 
+ * number of photos, a list of photos, the date of the oldest
+ * photo taken, and the date of the most recently taken 
+ * photo, as well as methods used to access, set, and calculate
+ * these fields. Contains methods to add and delete its photos.
+ *  
  * @author Omar Khalil
  * @author Michelle Hwang
  *
@@ -21,6 +26,11 @@ public class Album {
 	private Calendar oldest;
 	private Calendar newest;
 	
+	/**
+	 * Constructor initializes the fields of the Album object.
+	 * 
+	 * @param albumName Takes the name of the album as an argument
+	 */
 	public Album(String albumName) {
 		this.albumName = albumName;
 		this.numPhotos = 0;
@@ -29,27 +39,60 @@ public class Album {
 		this.newest = null;
 	}
 	
+	/**
+	 * Returns the name of the album.
+	 * 
+	 * @return The name of the album instance
+	 */
 	public String getAlbumName() {
 		return this.albumName;
 	}
 	
+	/**
+	 * Sets the album name with the given string.
+	 * 
+	 * @param albumName The name of the album to be set
+	 */
 	public void setAlbumName(String albumName) {
-		//System.out.println("In Album: setAlbumName");
 		this.albumName = albumName;
 	}
 	
+	/**
+	 * Returns the number of photos in the current album object.
+	 * 
+	 * @return The number of photos in the album
+	 */
 	public int getNumPhotos() {
 		return this.numPhotos;
 	}
 	
+	/**
+	 * Sets the number of photos in the current album. Used only for 
+	 * setting the number of photos in an album created from search
+	 * results. Otherwise, this counter should increment and decrement
+	 * with the user's additition and deletion of photographs.
+	 * 
+	 * @param numPhotos The number of photos the album possesses
+	 */
 	public void setNumPhotos(int numPhotos) {
 		this.numPhotos = numPhotos;
 	}
 	
+	/**
+	 * Returns a list of photos in the current album.
+	 * 
+	 * @return A list of the album's photos
+	 */
 	public List<Photo> getPhotos() {
 		return this.photos;
 	}
 	
+	/**
+	 * Sets an album's list of photos. Used only to create a new
+	 * album from search results.
+	 * 
+	 * @param photos The list of photos to be set
+	 */
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
@@ -70,36 +113,36 @@ public class Album {
 	}
 	
 	/**
+	 * Adds a new photo to an existing album, along with its file name, 
+	 * caption, and list of tags. Recalculates the album's oldest and newest
+	 * photos according to their date taken.
 	 * 
-	 * @param fileName
-	 * @param caption
-	 * @return
+	 * @param fileName The path location to the photo file on the local machine
+	 * @param caption A description of the photo
+	 * @return True if the photo was added successfully, false otherwise
 	 */
 	public boolean addPhoto(File fileName, String caption, List<Tag> tags) {
-		//System.out.println("In Album: addPhoto");
 		if (!this.containsPhoto(fileName)) {
 			Photo photo = new Photo(fileName, caption, this, tags);
 			photos.add(photo);			
 			this.numPhotos++;
-			
 			findOldest();
 			findNewest();
-			
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * Removes a photo from the photo album.
+	 * Removes a photo from the photo album, decrements the counter recording
+	 * the number of photos in the current album, and recalculates the oldest
+	 * and newest photos according to their date taken.
 	 * 
 	 * @param photo Photo to be deleted
 	 */
 	public void deletePhoto(Photo photo) {
-		//System.out.println("In Album: deletePhoto");
 		photos.remove(photo);
-		this.numPhotos--;
-		
+		this.numPhotos--;		
 		findOldest();
 		findNewest();
 	}
@@ -138,20 +181,14 @@ public class Album {
 	 * Identifies the oldest photo in the album.
 	 */
 	public void findOldest() {
-		//System.out.println("In Album: findOldest");
 		Calendar oldest;
-
 		if (numPhotos == 0) {
 			return;
 		}
-		
-		//System.out.println(photos.get(0).printDate());
 		oldest = photos.get(0).getDate();		
 		for (Photo p : photos) {
-			//System.out.println(oldest.compareTo(p.getDate()));
 			if (oldest.compareTo(p.getDate()) > 0) {
 				oldest = p.getDate();
-				//System.out.println(p.printDate());
 			}
 		}
 		this.oldest = oldest;
@@ -162,27 +199,15 @@ public class Album {
 	 */
 	public void findNewest() {
 		Calendar newest;
-
 		if (numPhotos == 0) {
 			return;
 		}
-		
-		//System.out.println(photos.get(0).printDate());
 		newest = photos.get(0).getDate();		
 		for (Photo p : photos) {
-			//System.out.println(oldest.compareTo(p.getDate()));
 			if (newest.compareTo(p.getDate()) < 0) {
 				newest = p.getDate();
-				//System.out.println(p.printDate());
 			}
 		}
 		this.newest = newest;
 	}
-	
-	public String toString() {
-		return "\n" + this.getAlbumName() + ":\n" + this.getPhotos() + "\n";
-	}
-	
-	
-	
 }

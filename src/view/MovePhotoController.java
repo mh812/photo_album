@@ -27,6 +27,15 @@ import model.Photo;
 import model.PhotoAlbum;
 import model.User;
 
+/**
+ * Manages the procedure to move a photo from one album
+ * into a different album. Displays a list of albums that the user
+ * can select to move the photo into.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ * 
+ */
 public class MovePhotoController {
 
 	@FXML
@@ -50,7 +59,7 @@ public class MovePhotoController {
 	private Photo photo; // photo to be moved
 	
 	/**
-	 * Highlights album if clicked on.
+	 * Prepares the album list and highlights an album if clicked on.
 	 */
 	@FXML
 	private void initialize() {
@@ -75,6 +84,12 @@ public class MovePhotoController {
 		albumList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showDetails(newValue));
 	}
 	
+	/**
+	 * Returns the user back to the Album Screen.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	protected void backToAlbum(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
@@ -94,6 +109,12 @@ public class MovePhotoController {
 		stage.show();
 	}
 	
+	/**
+	 * Performs the photo move.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void move(ActionEvent event) throws IOException {
 		int item = albumList.getSelectionModel().getSelectedIndex();
@@ -137,6 +158,12 @@ public class MovePhotoController {
 		}
 	}
 	
+	/**
+	 * Returns to Album Screen.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void exit(ActionEvent event) throws IOException {
 		backToAlbum(event);

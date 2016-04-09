@@ -2,7 +2,13 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.chrono.JapaneseChronology;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,6 +113,7 @@ public class SearchController {
 	/**
 	 * Search by tag type-value pairs. Retrieves photos with matching this
 	 * criteria. Alert user of empty results set.
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
@@ -137,15 +144,52 @@ public class SearchController {
 		}
 	}
 	
+	/**
+	 * Allows the user to search his or her album library according
+	 * to a range of dates restricted to a start and end date.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void searchDate(ActionEvent event) throws IOException {
 		gallery.getChildren().clear();
+		LocalDate d1 = oldest.getValue();
+		LocalDate d2 = newest.getValue();
+
+		if (d1 == null || d2 == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("Invalid Input.");
+			alert.setContentText("Please enter valid start and end date.");
+			alert.showAndWait();
+		} else if (d2.isBefore(d1) || d1 == d2) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("Invalid Input.");
+			alert.setContentText("Please enter valid start and end date.");
+			alert.showAndWait();
+		} else {
+			// convert LocalDate to Date instance
+			Date date1 = Date.from(d1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			Date date2 = Date.from(d2.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
+			resultList = user.searchAlbum(date1, date2);
+			if (resultList.isEmpty()) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("No Photos Found");
+				alert.setContentText("Please search and try again.");
+				alert.showAndWait();
+			} else {
+				setGallery();
+			}
+		}
 		
 	}
 	
 	/**
-	 * Set gallery ImageView to include search result photos. Enable user
+	 * Sets gallery ImageView to include search result photos. Enable user
 	 * to click on a photo to include it in the list of selected photos.
 	 */
 	@FXML
@@ -255,9 +299,7 @@ public class SearchController {
 				alert.setContentText("Invalid album name. Please try again.");
 				alert.showAndWait();
 	    	}
-	    	
 		}
-		
 	}
 	
 	/**

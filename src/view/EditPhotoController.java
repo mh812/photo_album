@@ -33,6 +33,15 @@ import model.PhotoAlbum;
 import model.Tag;
 import model.User;
 
+/**
+ * Manages procedures to edit a photo. Displays photo details 
+ * and options to add, delete, or edit a tag. The user cannot 
+ * edit the photo's file name, however.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ * 
+ */
 public class EditPhotoController {
 
 	@FXML
@@ -383,6 +392,9 @@ public class EditPhotoController {
 		this.caption.setText(caption);
 	}
 	
+	/**
+	 * Sets the tag list.
+	 */
 	public void setInitTags() {
 		tags.addAll(photo.getTags());
 		setTagList();

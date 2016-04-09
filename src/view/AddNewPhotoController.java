@@ -33,6 +33,16 @@ import model.PhotoAlbum;
 import model.Tag;
 import model.User;
 
+/**
+ * Manages the procedure to add a new photo to an album.
+ * Displays the options to add, delete, or edit a tag in 
+ * order to construct a tag list that is given to the photo
+ * object.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ *
+ */
 public class AddNewPhotoController {
 	
 	@FXML
@@ -98,7 +108,7 @@ public class AddNewPhotoController {
 	}
 	
 	/**
-	 * Displays tag details.
+	 * Displays tag details - type and value.
 	 * 
 	 * @param tag
 	 */
@@ -360,7 +370,9 @@ public class AddNewPhotoController {
         fileChooser.getExtensionFilters().add(filter); // add filter to file chooser
         File file = fileChooser.showOpenDialog(stage);
         this.fileName = file;
-		filename.setText(fileName.toString());
+		if (fileName != null) {
+			filename.setText(fileName.toString());
+		}
 	}
 	
 	/**

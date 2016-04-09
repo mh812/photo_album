@@ -38,6 +38,14 @@ import model.PhotoAlbum;
 import model.Tag;
 import model.User;
 
+/**
+ * Manages the album screen and operations to add, edit, delete, display, 
+ * or enlarge a photo, displays a selected photo's tags, as well as 
+ * thumbnails and captions of all photos in the album.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ */
 public class AlbumController {
 
 	@FXML
@@ -138,11 +146,16 @@ public class AlbumController {
 	@FXML
 	protected void open(ActionEvent event) throws IOException {
 		if (photo == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("No item selected");
+			alert.setContentText("Please select a photo to be deleted");
+			alert.showAndWait();
 			return;
 		}
 		Dialog<Photo> dialog = new Dialog<>();
     	dialog.setTitle("Photo: " + this.photo.getCaption());
-		Image image = new Image(photo.getFileName().toURI().toString());
+		Image image = new Image(photo.getFileName().toURI().toString(), 500, 500, true, true);
 		ImageView imageView = new ImageView();
 		imageView.setImage(image);
 		imageView.setPreserveRatio(true);
@@ -162,6 +175,11 @@ public class AlbumController {
 	@FXML
 	protected void move(ActionEvent event) throws IOException {
 		if (photo == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("No item selected");
+			alert.setContentText("Please select a photo to be deleted");
+			alert.showAndWait();
 			return;
 		}	
 
@@ -204,6 +222,7 @@ public class AlbumController {
 		controller.setPhotoAlbum(this.photoAlbum);
 		controller.setUser(this.user);
 		controller.setAlbumList(this.user);
+		controller.setWelcome(user);
 		
 		Stage stage = new Stage();
 		stage.setTitle("Logged in as: " + user.getUsername());
@@ -426,7 +445,5 @@ public class AlbumController {
 	 */
 	public void setAlbum(Album album) {
 		this.album = album;
-	}
-
-	
+	}	
 }

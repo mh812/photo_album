@@ -17,6 +17,13 @@ import javafx.stage.Stage;
 import model.PhotoAlbum;
 import model.User;
 
+/**
+ * Manages the procedure to add a new album to the user's library.
+ * 
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ *
+ */
 public class AddNewAlbumController {
 	@FXML
 	private TextField albumname;
@@ -29,6 +36,12 @@ public class AddNewAlbumController {
 	
 	private PhotoAlbum photoAlbum;
 
+	/**
+	 * Brings the user back to the User Screen.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	protected void backToUser(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();

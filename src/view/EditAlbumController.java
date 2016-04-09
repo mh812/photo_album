@@ -17,6 +17,13 @@ import model.Album;
 import model.PhotoAlbum;
 import model.User;
 
+/**
+ * Manages the procedures to edit an album (renaming). 
+ *  
+ * @author Omar Khalil
+ * @author Michelle Hwang
+ *
+ */
 public class EditAlbumController {
 	@FXML
 	private TextField albumname;
@@ -31,10 +38,19 @@ public class EditAlbumController {
 	
 	private PhotoAlbum photoAlbum;
 	
+	/**
+	 * Sets the prompt text of the album name TextField.
+	 */
 	public void setAlbumText() {
 		albumname.setText(this.album.getAlbumName());
 	}
 
+	/**
+	 * Returns the user back to the User Screen.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	protected void backToUser(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		FXMLLoader loader = new FXMLLoader();
@@ -52,6 +68,12 @@ public class EditAlbumController {
 		stage.show();
 	}
 	
+	/**
+	 * Saves the user's album name edit.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	protected void edit(ActionEvent event) throws IOException {
 		System.out.println("In EditAlbumController: edit");
