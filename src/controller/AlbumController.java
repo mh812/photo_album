@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import app.PhotoAlbum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,7 +35,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Album;
 import model.Photo;
-import model.PhotoAlbum;
 import model.Tag;
 import model.User;
 

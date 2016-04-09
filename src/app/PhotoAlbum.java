@@ -1,4 +1,4 @@
-package model;
+package app;
 
 import java.io.IOException;
 
@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.BackEnd;
+import model.ResourceManager;
 
 /**
  * The PhotoAlbum class is the main method of this program. This class creates

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import app.PhotoAlbum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.Album;
-import model.PhotoAlbum;
 import model.User;
 
 /**
