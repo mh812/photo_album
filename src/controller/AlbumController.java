@@ -29,6 +29,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
@@ -414,9 +416,12 @@ public class AlbumController {
 						}
 					}
 				}
-			});				
-
-			gallery.getChildren().add(imageView);
+			});		
+			Text caption = new Text(p.getCaption());
+			VBox pane = new VBox(2);
+			pane.getChildren().add(caption);
+			pane.getChildren().add(imageView);
+			gallery.getChildren().add(pane);
 		}
 	}
 	
